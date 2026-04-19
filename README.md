@@ -1,16 +1,16 @@
 # Image-Inpainting-Using-Diffusion-Models
-# 🧠 Symmetry-Aware Image Inpainting using Stable Diffusion + LoRA
+#  Symmetry-Aware Image Inpainting using Stable Diffusion + LoRA
 
 ---
 
-## 📌 Problem Statement
+##  Problem Statement
 
 Image inpainting aims to reconstruct missing or corrupted regions in an image. While modern generative models can produce visually appealing outputs, they often suffer from:
 
-* ❌ Lack of structural consistency
-* ❌ Hallucinated or unrealistic content
-* ❌ Poor reconstruction for structured objects (faces, monuments)
-* ❌ Sensitivity to mask size and missing context
+*  Lack of structural consistency
+*  Hallucinated or unrealistic content
+*  Poor reconstruction for structured objects (faces, monuments)
+*  Sensitivity to mask size and missing context
 
 This project focuses on building a **robust inpainting framework** that can:
 
@@ -20,7 +20,7 @@ This project focuses on building a **robust inpainting framework** that can:
 
 ---
 
-## 🎯 Objective
+##  Objective
 
 To develop a **transfer learning-based inpainting system** using diffusion models that:
 
@@ -34,7 +34,7 @@ To develop a **transfer learning-based inpainting system** using diffusion model
 
 We build upon:
 
-👉 **Stable Diffusion Inpainting Model**
+ **Stable Diffusion Inpainting Model**
 
 * Pretrained model: `runwayml/stable-diffusion-inpainting`
 * Components:
@@ -49,7 +49,7 @@ We build upon:
 
 Instead of training the full model (very expensive), we use:
 
-👉 **LoRA (Low-Rank Adaptation)**
+ **LoRA (Low-Rank Adaptation)**
 
 ### Why LoRA?
 
