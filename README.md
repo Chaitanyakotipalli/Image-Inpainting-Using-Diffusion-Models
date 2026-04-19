@@ -377,6 +377,11 @@ This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structura
 
 <img width="1536" height="512" alt="mask_10_rank1_PSNR_29 08_SSIM_0 8093" src="https://github.com/user-attachments/assets/08126449-1c0a-454e-a674-1db46d6cf6ee" />
 
+<img width="1536" height="512" alt="mask_10_rank2_PSNR_28 40_SSIM_0 8063" src="https://github.com/user-attachments/assets/66812ec5-c352-4c3d-94c7-3cb390f155ae" />
+<img width="1000" height="300" alt="mask_20_0" src="https://github.com/user-attachments/assets/8e8e6ce5-2098-48fd-ac6b-169cfa72f4f3" />
+<img width="1000" height="300" alt="mask_20_1" src="https://github.com/user-attachments/assets/5baebed1-bda2-4c88-9237-afa70ccd42f5" />
+
+
 
 * Original | Mask | Masked | Output comparisons
 * Both prompt ON and OFF
