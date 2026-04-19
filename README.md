@@ -150,6 +150,165 @@ We evaluate using:
 * **SSIM (Structural Similarity Index)** → perceptual quality
 
 ---
+## 🏛️ Monument Inpainting Architecture (SD2 + Canny-Guided Structure Control)
+
+Monument reconstruction is fundamentally different from face inpainting. While faces rely more on texture and learned priors, monuments require strict preservation of **geometry, edges, and symmetry**. Standard diffusion models tend to generate visually plausible but **structurally incorrect outputs** (hallucinated shapes, broken alignment).
+
+To solve this, we designed a **structure-aware inpainting pipeline** using:
+
+* **Stable Diffusion 2 (SD2)**
+* **Canny Edge Conditioning**
+
+---
+
+### 🔹 Base Model
+
+* **Stable Diffusion 2 (SD2)**
+* Chosen for:
+
+  * Better latent representations
+  * Improved handling of complex textures and scenes
+  * More stable generation compared to SD1 for structured objects
+
+---
+
+### 🔹 Key Idea
+
+Instead of relying only on generative capability, we inject **explicit structural information** into the model using **Canny edge maps**.
+
+👉 This ensures that the generated content follows the **true geometric layout** of the monument.
+
+---
+
+## 🔧 Pipeline (as implemented)
+
+### 1. Input Image
+
+* Monument image is loaded and resized (e.g., 256×256)
+* Acts as the base reference
+
+---
+
+### 2. Mask Generation
+
+* A region (3%–20%) is masked
+* Simulates missing/damaged parts of the structure
+
+---
+
+### 3. Canny Edge Extraction (Core Step)
+
+We apply **Canny Edge Detection** on the original image to extract structural features:
+
+* Detects:
+
+  * boundaries
+  * edges
+  * contours
+  * repeating patterns
+
+👉 This produces a **binary edge map** representing the structure
+
+---
+
+### 🔥 Why Canny?
+
+Canny was specifically used because:
+
+* It captures **sharp structural boundaries**
+* Works well for architectural images (clear edges)
+* Removes unnecessary texture noise
+* Provides a **clean geometric guide**
+
+Without Canny:
+
+* Model relies only on learned priors
+* Leads to:
+
+  * distorted buildings
+  * broken symmetry
+  * unrealistic geometry
+
+With Canny:
+
+* Model follows **actual structure of the monument**
+* Reduces hallucination significantly
+
+---
+
+### 4. Conditioning the Diffusion Model
+
+The model is conditioned using:
+
+* Masked image
+* Mask
+* **Canny edge map (structure guidance)**
+* Optional text prompt
+
+👉 The edge map acts as a **hard structural constraint**
+
+---
+
+### 5. Diffusion Process
+
+Inside SD2:
+
+* Image is encoded into latent space via VAE
+* UNet performs iterative denoising
+* During reconstruction:
+
+  * masked regions are filled
+  * generation is guided by:
+
+    * surrounding context
+    * **edge structure (Canny)**
+    * prompt (if enabled)
+
+---
+
+### 6. Output Generation
+
+* Latent output is decoded back to image space
+* Final output preserves:
+
+  * alignment of structures
+  * edge continuity
+  * architectural symmetry
+
+---
+
+## 🧠 Design Insight
+
+| Without Canny         | With Canny              |
+| --------------------- | ----------------------- |
+| blurry shapes         | sharp structures        |
+| hallucinated geometry | accurate reconstruction |
+| weak alignment        | strong edge consistency |
+
+---
+
+## 📌 Key Advantages
+
+* Enforces **geometry-aware reconstruction**
+* Preserves **edges and symmetry**
+* Reduces diffusion hallucination
+* Improves results on **structured objects**
+
+---
+
+## ⚠️ Limitations
+
+* Strong dependence on edge quality
+* Very large masks still challenging
+* Fine details (carvings) may not fully recover
+
+---
+
+## 🧠 Summary
+
+This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structural conditioning**, transforming it from a purely generative model into a **structure-aware inpainting system**, particularly effective for monuments and architectural scenes.
+
+---
 
 # 📈 RESULTS
 
@@ -256,34 +415,4 @@ We evaluate using:
 
 ---
 
-## ▶️ How to Run
 
-```bash
-pip install -r requirements.txt
-python train_faces.py
-python train_monuments.py
-python inference.py
-```
-
----
-
-## 📂 Project Structure
-
-```
-├── train_faces.py
-├── train_monuments.py
-├── inference.py
-├── evaluate.py
-├── notebooks/
-├── results/
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🙌 Final Note
-
-This project demonstrates a **practical and scalable approach** to image inpainting using modern generative models, with a strong focus on **real-world robustness and structured reconstruction**.
-
----
