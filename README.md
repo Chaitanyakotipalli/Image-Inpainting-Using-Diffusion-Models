@@ -47,16 +47,9 @@ We build upon:
 
 ## 🔧 Key Modification: LoRA Fine-Tuning
 
-Instead of training the full model (very expensive), we use:
+Instead of training the full model we use:
 
  **LoRA (Low-Rank Adaptation)**
-
-### Why LoRA?
-
-* Efficient fine-tuning
-* Reduces GPU memory usage
-* Faster convergence
-* Keeps pretrained knowledge intact
 
 ### Applied on:
 
@@ -132,8 +125,8 @@ We used a combination of:
 
 ## 🧠 Key Idea
 
-👉 Early training learns **structure**
-👉 Later training refines **details**
+ Early training learns **structure**
+ Later training refines **details**
 
 This staged learning improves both:
 
@@ -176,7 +169,7 @@ To solve this, we designed a **structure-aware inpainting pipeline** using:
 
 Instead of relying only on generative capability, we inject **explicit structural information** into the model using **Canny edge maps**.
 
-👉 This ensures that the generated content follows the **true geometric layout** of the monument.
+ This ensures that the generated content follows the **true geometric layout** of the monument.
 
 ---
 
@@ -207,11 +200,11 @@ We apply **Canny Edge Detection** on the original image to extract structural fe
   * contours
   * repeating patterns
 
-👉 This produces a **binary edge map** representing the structure
+ This produces a **binary edge map** representing the structure
 
 ---
 
-### 🔥 Why Canny?
+###  Why Canny?
 
 Canny was specifically used because:
 
@@ -245,7 +238,7 @@ The model is conditioned using:
 * **Canny edge map (structure guidance)**
 * Optional text prompt
 
-👉 The edge map acts as a **hard structural constraint**
+ The edge map acts as a **hard structural constraint**
 
 ---
 
@@ -277,7 +270,7 @@ Inside SD2:
 
 ---
 
-## 🧠 Design Insight
+##  Design Insight
 
 | Without Canny         | With Canny              |
 | --------------------- | ----------------------- |
@@ -287,7 +280,7 @@ Inside SD2:
 
 ---
 
-## 📌 Key Advantages
+##  Key Advantages
 
 * Enforces **geometry-aware reconstruction**
 * Preserves **edges and symmetry**
@@ -296,7 +289,7 @@ Inside SD2:
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 * Strong dependence on edge quality
 * Very large masks still challenging
@@ -304,7 +297,7 @@ Inside SD2:
 
 ---
 
-## 🧠 Summary
+##  Summary
 
 This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structural conditioning**, transforming it from a purely generative model into a **structure-aware inpainting system**, particularly effective for monuments and architectural scenes.
 
@@ -351,7 +344,7 @@ This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structura
 | 40%    | 19.41     | 0.754     |
 | 50%    | 17.09     | 0.693     |
 
-👉 Shows strong **generalization beyond training dataset**
+ Shows strong **generalization beyond training dataset**
 
 ---
 
@@ -364,11 +357,11 @@ This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structura
 | 15%    | 28.26     | 26.62      |
 | 20%    | 27.19     | 25.96      |
 
-👉 Prompts significantly improve **structural reconstruction**
+ Prompts significantly improve **structural reconstruction**
 
 ---
 
-## 📌 Observations
+##  Observations
 
 * Performance decreases as mask size increases (expected)
 * Prompt guidance improves:
@@ -382,14 +375,15 @@ This pipeline enhances Stable Diffusion 2 by integrating **Canny-based structura
 
 ## 🖼️ Sample Outputs
 
-(Add your saved images here)
+<img width="1536" height="512" alt="mask_10_rank1_PSNR_29 08_SSIM_0 8093" src="https://github.com/user-attachments/assets/08126449-1c0a-454e-a674-1db46d6cf6ee" />
+
 
 * Original | Mask | Masked | Output comparisons
 * Both prompt ON and OFF
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 * Struggles with very low-resolution inputs
 * Large missing regions (>50%) lead to hallucination
